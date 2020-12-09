@@ -13,6 +13,7 @@ const bodyParser = require('body-parser')
 const multer = require('multer')
 
 const indexRouter = require('./routes/index')
+const tiempoactividadRouter = require('./routes/tiempoactividad')
 
 const main = express()
 main.use(bodyParser.urlencoded({ extended: true }))
@@ -28,6 +29,7 @@ main.use(cookieParser())
 main.use(express.static(path.join(__dirname, 'public')))
 
 main.use('/api', indexRouter)
+main.use('/api/tiempoactividad', tiempoactividadRouter)
 
 // catch 404 and forward to error handler
 main.use(function (req, res, next) {

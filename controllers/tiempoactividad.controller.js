@@ -18,8 +18,8 @@ const addtiempoxactividad = async (req, res) => {
 }
 
 const updatetiempoxactividad = async (req, res) => {
-
-    const {inicio, final, causa, usuario_id, reim_id, actividad_id, id_tiempoactividad} = req.body
+    const id_tiempoactividad = req.params.id;
+    const {inicio, final, causa, usuario_id, reim_id, actividad_id } = req.body
 
 
     await pool.query(`update 

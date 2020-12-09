@@ -116,10 +116,9 @@ const login = async (req, res) => {
 
             userLoged.accessToken = token*/
 
-            res.json(userLoged)
+            res.status(200).json(userLoged)
         } else {
-            return null
-            //res.status(400).send('Acceso denegado')
+            res.status(404).json(null)
         }
     })
 

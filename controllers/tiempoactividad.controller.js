@@ -2,7 +2,7 @@ const {pool} = require('../dbcnx')
 const md5 = require('md5')
 
 const addtiempoxactividad = async (req, res) => {
-
+    console.log("Hola mundillo")
     const {inicio, final, causa, usuario_id, reim_id, actividad_id} = req.body
 
 

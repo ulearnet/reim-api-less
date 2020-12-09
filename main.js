@@ -29,7 +29,7 @@ main.use(cookieParser())
 main.use(express.static(path.join(__dirname, 'public')))
 
 main.use('/api', indexRouter)
-main.use('/api/tiempoactividad', tiempoactividadRouter)
+main.use('/api/tiempoxactividad', tiempoactividadRouter)
 
 // catch 404 and forward to error handler
 main.use(function (req, res, next) {
@@ -48,9 +48,10 @@ main.use(function (err, req, res, next) {
 })
 
 //cron jobs
-
+/*
 if(process.env.NODE_ENV==='development') module.exports = main;
-else module.exports.handler = serverless(main);
+else module.exports.handler = serverless(main);*/
 //TODO FIX
-//module.exports.handler = serverless(main);
+module.exports.handler = serverless(main);
+//module.exports = main;
 

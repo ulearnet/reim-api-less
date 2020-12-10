@@ -37,6 +37,25 @@ const updatetiempoxactividad = async (req, res) => {
 
 }
 
+const updatetiempoxactividadfinal = async (req, res) => {
+    const id_tiempoactividad = req.params.id;
+    const {final} = req.body
+
+
+    await pool.query(`update 
+                            tiempoxactividad 
+                      set
+                          final= ?                            
+                      where
+                          id = ?
+                      `,[final, id_tiempoactividad],function (error, results, fields) {
+        if (error) throw error;
+        res.status(200).json("OK")
+    })
+
+
+}
+
 module.exports = {
-    addtiempoxactividad, updatetiempoxactividad
+    addtiempoxactividad, updatetiempoxactividad, updatetiempoxactividadfinal
 }

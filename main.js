@@ -48,10 +48,7 @@ main.use(function (err, req, res, next) {
 })
 
 //cron jobs
-/*
+
 if(process.env.NODE_ENV==='development') module.exports = main;
-else module.exports.handler = serverless(main);*/
-//TODO FIX
-//module.exports.handler = serverless(main);
-module.exports = main;
+else module.exports.handler = serverless(main);
 

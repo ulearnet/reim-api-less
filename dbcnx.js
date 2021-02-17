@@ -4,7 +4,7 @@ const pool = mysql.createPool({
     user: process.env.BD_USER,
     password: process.env.BD_PASSWORD,
     port: process.env.BD_PORT,
-    database: 'ulearnet_reim_pilotaje'
+    database: 'ulearnet_reim_pruebas'
 })
 
 module.exports= {pool}

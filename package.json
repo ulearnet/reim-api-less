@@ -29,6 +29,7 @@
     "nodemailer": "^6.4.15",
     "p-map": "^4.0.0",
     "pg": "^8.3.3",
+    "prettier": "^2.2.1",
     "pug": "2.0.0-beta11",
     "serverless-http": "^2.6.0"
   },

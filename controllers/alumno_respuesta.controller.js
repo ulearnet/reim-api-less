@@ -38,5 +38,4 @@ const put_alumno_respuesta_actividad = async (req, res) => {
 
 module.exports = {
   put_alumno_respuesta_actividad,
-  update_alumno_respuesta_actividad,
 };

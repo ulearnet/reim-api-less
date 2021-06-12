@@ -19,6 +19,10 @@ const indexRouter = require("./routes/index");
 const tiempoactividadRouter = require("./routes/tiempoactividad");
 const alumno_respuestaRouter = require("./routes/alumno_respuesta");
 const item_altRouter = require("./routes/item_alt");
+const asigna_reim_alumnoRouter = require("./routes/asigna_reim_alumno");
+const item_router = require("./routes/item");
+const alternativa_router = require("./routes/alternativa");
+
 
 const main = express();
 main.use(bodyParser.urlencoded({ extended: true }));
@@ -37,6 +41,10 @@ main.use("/api", indexRouter);
 main.use("/api/tiempoxactividad", tiempoactividadRouter);
 main.use("/api/alumno_respuesta", alumno_respuestaRouter);
 main.use("/api/item_alt", item_altRouter);
+main.use("/api/asigna_reim_alumno", asigna_reim_alumnoRouter);
+main.use("/api/item", item_router);
+main.use("/api/alternativa", alternativa_router);
+
 
 // catch 404 and forward to error handler
 main.use(function (req, res, next) {

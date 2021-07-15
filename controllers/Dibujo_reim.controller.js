@@ -32,7 +32,7 @@ const getAprobados = async (req, res) => {
     ` 
       SELECT * FROM dibujo_reim 
       where reim_id = 204 
-      and id_dibujo_reim in (select idimagen from ulearnet_reim_pilotaje.aprueba where esaprobado = 1) 
+      and id_dibujo_reim in (select idimagen from aprueba where esaprobado = 1) 
       ORDER BY id_dibujo_reim DESC limit 10 ;
     `,
     [reim_id],
@@ -53,7 +53,7 @@ const getLast = async (req, res) => {
 
   await pool.query(
     ` 
-      select * from dibujo_reim where id_dibujo_reim = (select max(id_dibujo_reim) from ulearnet_reim_pilotaje.dibujo_reim); 
+      select * from dibujo_reim where id_dibujo_reim = (select max(id_dibujo_reim) from dibujo_reim); 
     `,
     function (error, results, fields) {
       if (error) throw error;

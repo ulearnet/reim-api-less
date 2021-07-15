@@ -7,9 +7,9 @@ const get_dibujo_reim = async (req, res) => {
     `SELECT id_dibujo_reim, 
             usuario_id,
             imagen
-      FROM dibujo_reim
+      FROM ulearnet_reim_pilotaje.dibujo_reim
       WHERE  reim_id = ?
-	    LIMIT 20
+      ORDER BY id_dibujo_reim DESC LIMIT 20
     `,
      [id],
      function (error, results, fields) {

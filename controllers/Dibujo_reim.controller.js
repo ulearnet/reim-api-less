@@ -9,7 +9,7 @@ const get_dibujo_reim = async (req, res) => {
             imagen
       FROM dibujo_reim
       WHERE  reim_id = ?
-	    ORDER BY id_dibujo_reim DESC limit 20;
+      ORDER BY id_dibujo_reim DESC limit 20;
     `,
      [id],
      function (error, results, fields) {

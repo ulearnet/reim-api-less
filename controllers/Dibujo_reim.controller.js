@@ -31,9 +31,15 @@ const getAprobados = async (req, res) => {
   await pool.query(
     ` 
       SELECT * FROM dibujo_reim 
+<<<<<<< HEAD
       where reim_id = ?
       and id_dibujo_reim in (select idimagen from aprueba where esaprobado = 1) 
       ORDER BY id_dibujo_reim DESC limit 20;
+=======
+      where reim_id = 204 
+      and id_dibujo_reim in (select idimagen from aprueba where esaprobado = 1) 
+      ORDER BY id_dibujo_reim DESC limit 10 ;
+>>>>>>> 015c80074930004d115bd75908cce05e1acfd847
     `,
     [reim_id],
     function (error, results, fields) {

@@ -69,24 +69,8 @@ const put_detalle_usuario = async (req, res) => {
   );
 };
 
-const getLast = async (req, res) => { 
-
-    await pool.query(
-      ` SELECT id
-        from detalle_usuario
-        where id = (select max(id) from transaccion_reim)`,
-      function(error, results, fields){
-          if (error) throw error;
-          res.status(200).json(results[0].id);
-      }
-)
-}
-
-
-
 module.exports = {
   get_detalle_usuario,
   update_detalle_usuario,
-  put_detalle_usuario,
-  getLast,
+  put_detalle_usuario
 };

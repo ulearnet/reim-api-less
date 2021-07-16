@@ -5,7 +5,7 @@ const get_ultimo_id = async (req,res) => {
   await pool.query(
     `SELECT *
     from catalogo_reim
-    where id = (select max(id) from ulearnet_reim_pilotaje.catalogo_reim)`
+    where id = (select max(id) from catalogo_reim)`
     ,
     function (error, results, fields) {
       if (error) throw error;

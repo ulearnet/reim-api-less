@@ -9,7 +9,7 @@ const get_dibujo_reim = async (req, res) => {
             imagen
       FROM dibujo_reim
       WHERE  reim_id = ?
-      ORDER BY id_dibujo_reim DESC LIMIT 20
+	    ORDER BY id_dibujo_reim DESC limit 20;
     `,
      [id],
      function (error, results, fields) {
@@ -31,9 +31,9 @@ const getAprobados = async (req, res) => {
   await pool.query(
     ` 
       SELECT * FROM dibujo_reim 
-      where reim_id = 204 
-      and id_dibujo_reim in (select idimagen from ulearnet_reim_pilotaje.aprueba where esaprobado = 1) 
-      ORDER BY id_dibujo_reim DESC limit 10 ;
+      where reim_id = ?
+      and id_dibujo_reim in (select idimagen from aprueba where esaprobado = 1) 
+      ORDER BY id_dibujo_reim DESC limit 20;
     `,
     [reim_id],
     function (error, results, fields) {
@@ -49,11 +49,10 @@ const getAprobados = async (req, res) => {
 
 const getLast = async (req, res) => {
 
-  const { } = req.body;
 
   await pool.query(
     ` 
-      select * from dibujo_reim where id_dibujo_reim = (select max(id_dibujo_reim) from ulearnet_reim_pilotaje.dibujo_reim); 
+      select * from dibujo_reim where id_dibujo_reim = (select max(id_dibujo_reim) from dibujo_reim); 
     `,
     function (error, results, fields) {
       if (error) throw error;

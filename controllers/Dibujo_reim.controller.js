@@ -9,7 +9,7 @@ const get_dibujo_reim = async (req, res) => {
             imagen
       FROM dibujo_reim
       WHERE  reim_id = ?
-      ORDER BY id_dibujo_reim DESC limit 20;
+      ORDER BY id_dibujo_reim DESC limit 8;
     `,
      [id],
      function (error, results, fields) {
@@ -33,7 +33,7 @@ const getAprobados = async (req, res) => {
       SELECT * FROM dibujo_reim 
       where reim_id = ?
       and id_dibujo_reim in (select idimagen from aprueba where esaprobado = 1) 
-      ORDER BY id_dibujo_reim DESC limit 20;
+      ORDER BY id_dibujo_reim DESC limit 8;
     `,
     [reim_id],
     function (error, results, fields) {

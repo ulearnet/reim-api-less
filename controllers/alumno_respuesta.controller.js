@@ -60,9 +60,31 @@ const get_colab_spacemath = async (req, res) => {
       }
   );
 };
+
+const get_tienda_spacemath = async (req, res) => {
+  const { id_user} = req.body;
+  await pool.query(
+      `SELECT sum(id_elemento IN (500018, 500022, 500105, 500032)) + 
+        (SELECT sum(resultado) FROM alumno_respuesta_actividad WHERE (id_elemento BETWEEN 500035 AND 500046) and id_user=?) as '@'
+        FROM alumno_respuesta_actividad WHERE id_user= ?   
+    `,
+      [id_user, id_user],
+      function (error, results, fields) {
+          if (error) throw error;
+          if (results.length > 0) {
+              console.log( results[0] );
+              res.status(200).json( results[0] );
+          }else{
+              res.status(404).json(null);
+          }
+      }
+  );
+};
+
 module.exports = {
   put_alumno_respuesta_actividad2,
   put_alumno_respuesta_actividad,
-  get_colab_spacemath
+  get_colab_spacemath,
+  get_tienda_spacemath
   
 };

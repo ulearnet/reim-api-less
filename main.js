@@ -81,4 +81,5 @@ main.use(function (err, req, res, next) {
 //cron jobs
 
 
-module.exports.handler = serverless(main);
+if (process.env.NODE_ENV === "development") module.exports = main;
+else module.exports.handler = serverless(main);

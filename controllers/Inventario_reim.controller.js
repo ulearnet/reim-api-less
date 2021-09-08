@@ -2,27 +2,27 @@ const { pool } = require("../dbcnx");
 const md5 = require("md5");
 
 const put_inventario_reim = async (req, res) => {
-  const {
-    sesion_id,
-    id_elemento,
-    cantidad,
-    datetime_creacion,
-  } = req.body;
-
-  await pool.query(
-    `insert into inventario_reim (sesion_id, id_elemento, cantidad, datetime_creacion)
-         values (?, ?, ?, ?)`,
-    [
+    const {
         sesion_id,
         id_elemento,
         cantidad,
         datetime_creacion,
-    ],
-    function (error, results, fields) {
-      if (error) throw error;
-      res.status(200).json(results.insertId);
-    }
-  );
+    } = req.body;
+
+    await pool.query(
+        `insert into inventario_reim (sesion_id, id_elemento, cantidad, datetime_creacion)
+         values (?, ?, ?, ?)`,
+        [
+            sesion_id,
+            id_elemento,
+            cantidad,
+            datetime_creacion,
+        ],
+        function (error, results, fields) {
+            if (error) throw error;
+            res.status(200).json(results.insertId);
+        }
+    );
 };
 
 
@@ -46,23 +46,47 @@ const get_inventario_reim = async (req, res) => {
                                    )`;
 
     await pool.query(
-       `SELECT id_elemento,
+        `SELECT id_elemento,
                cantidad
         FROM inventario_reim
         WHERE `+ filterQuery,
 
-      function (error, results, fields) {
-        if (error) throw error;
-        if (results.length > 0) {
-          res.status(200).json(results);
-        } else {
-          res.status(404).json(null);
+        function (error, results, fields) {
+            if (error) throw error;
+            if (results.length > 0) {
+                res.status(200).json(results);
+            } else {
+                res.status(404).json(null);
+            }
         }
-      }
     );
-  };
-  
+};
+
+const get_cantidad_elemento = async (req, res) => {
+    const { usuario_id, id_elemento } = req.body;
+
+
+    await pool.query(
+        `SELECT cantidad FROM inventario_reim i,asigna_reim_alumno a, usuario u where i.sesion_id = a.sesion_id && a.usuario_id = u.id and
+        u.id = ?
+        and id_elemento = ? and datetime_creacion = (select max(datetime_creacion)) order by datetime_creacion desc;`,
+        [usuario_id,id_elemento],
+
+        function (error, results, fields) {
+            if (error) throw error;
+            if (results.length > 0) {
+                const cantidad_maxima = results[0];
+
+                res.status(200).json(cantidad_maxima);
+            } else {
+                res.status(404).json(null);
+            }
+        }
+    );
+};
+
 module.exports = {
     put_inventario_reim,
     get_inventario_reim,
+    get_cantidad_elemento,
 };

@@ -81,10 +81,34 @@ const get_tienda_spacemath = async (req, res) => {
   );
 };
 
+
+
+const get_count_element_alumno_respuesta_actividad = async (req, res) => {
+  const {
+    id_elemento,
+    id_user,
+  } = req.body;
+  await pool.query(
+      `SELECT Count(id_elemento) as cantidad
+    FROM alumno_respuesta_actividad 
+    WHERE  id_elemento = ? AND id_user = ?
+    `,
+      [id_elemento,id_user],
+      function (error, results, fields) {
+        if (error) throw error;
+        if (results.length > 0) {
+          res.status(200).json(results[0]);
+        }else{
+          res.status(404).json(null);
+        }
+      }
+  );
+};
+
 module.exports = {
   put_alumno_respuesta_actividad2,
   put_alumno_respuesta_actividad,
   get_colab_spacemath,
-  get_tienda_spacemath
-  
+  get_tienda_spacemath,
+  get_count_element_alumno_respuesta_actividad 
 };

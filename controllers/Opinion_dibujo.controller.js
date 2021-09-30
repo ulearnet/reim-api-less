@@ -18,11 +18,14 @@ const add_opinion_dibujo = async (req, res) => {
         id_usuario,
         opinion,
       ],
-      function (error, results, fields) {
-        if (error) throw error;
-        res.status(200).json(results.insertId);
+      async function (error, results, fields) {
+          if (error) throw error;
+          await pool.end()
+          pool.quit()
+          res.status(200).json(results.insertId);
       }
     );
+
   };
 
 

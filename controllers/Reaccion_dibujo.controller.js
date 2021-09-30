@@ -18,30 +18,36 @@ const add_reaccion_dibujo = async (req, res) => {
         idusuario,
         fecha,
       ],
-      function (error, results, fields) {
-        if (error) throw error;
-        res.status(200).json(results.insertId);
+      async function (error, results, fields) {
+          if (error) throw error;
+          await pool.end()
+          pool.quit()
+          await res.status(200).json(results.insertId);
       }
     );
+
   };
 
   const get = async (req, res) => {
     const { iddibujo } = req.body;
-  
+
     await pool.query(
       `
       select * from reaccionxdibujo where iddibujo = ?
       `,
       [iddibujo],
-      function (error, results, fields) {
-        if (error) throw error;
-        if (results.length > 0) {
-          res.status(200).json(results);
-        } else {
-          res.status(404).json(null);
-        }
+      async function (error, results, fields) {
+          if (error) throw error;
+          await pool.end()
+          pool.quit()
+          if (results.length > 0) {
+              await res.status(200).json(results);
+          } else {
+              await res.status(404).json(null);
+          }
       }
     );
+
   };
 
 module.exports = {

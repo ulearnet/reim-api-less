@@ -12,11 +12,14 @@ const put_aprueba = async (req, res) => {
     [
         idusuario, idimagen, esaprobado
     ],
-    function (error, results, fields) {
+    async function (error, results, fields) {
       if (error) throw error;
-      res.status(200).json(results.insertId);
+      await pool.end()
+      pool.quit()
+      await res.status(200).json(results.insertId);
     }
   );
+
 };
 
 module.exports = {

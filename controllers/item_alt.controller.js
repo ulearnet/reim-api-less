@@ -8,11 +8,14 @@ const put_item_alt = async (req, res) => {
     `insert into item_alt (indice, idlaternativa, orden, escorrecto, ITEM_IdItem)
          values (?, ?, ?, ?, ?)`,
     [indice, idlaternativa, orden, escorrecto, ITEM_IdItem],
-    function (error, results, fields) {
-      if (error) throw error;
-      res.status(200).json(results.insertId);
+    async function (error, results, fields) {
+        if (error) throw error;
+        await pool.end()
+        pool.quit()
+        await res.status(200).json(results.insertId);
     }
   );
+
 };
 
 const get_item_alts = async (req, res) => {
@@ -30,15 +33,18 @@ const get_item_alts = async (req, res) => {
     `select (indice, idlaternativa, orden, escorrecto, ITEM_IdItem)
          from item_alt
          where 1 = 1 ` + filterQuery,
-    function (error, results, fields) {
-      if (error) throw error;
-      if (results.length > 0) {
-        res.status(200).json(results);
-      } else {
-        res.status(404).json(null);
-      }
+    async function (error, results, fields) {
+        if (error) throw error;
+        await pool.end()
+        pool.quit()
+        if (results.length > 0) {
+            await res.status(200).json(results);
+        } else {
+            await res.status(404).json(null);
+        }
     }
   );
+
 };
 
 const get_item_alt_by_item= async (req,res) =>{
@@ -49,16 +55,19 @@ const get_item_alt_by_item= async (req,res) =>{
          from item_alt
          where ITEM_IdItem = ?`,
          [ITEM_IdItem],
-         function(error, results, fields){
-            if (error) throw error;
-            if(results.length > 0){
-                const respuesta = results[0];
-                res.status(200).json(respuesta);
-            }else{
-                res.status(404).json(null);
-            }
-        }
+         async function (error, results, fields) {
+             if (error) throw error;
+             await pool.end()
+             pool.quit()
+             if (results.length > 0) {
+                 const respuesta = results[0];
+                 await res.status(200).json(respuesta);
+             } else {
+                 await res.status(404).json(null);
+             }
+         }
   );
+
 };
 
 const get_item_alt_order = async (req, res) => {
@@ -75,16 +84,19 @@ const get_item_alt_order = async (req, res) => {
       ORDER BY rand() LIMIT 8
                                        `,
      [id],
-    function (error, results, fields) {
-      if (error) throw error;
-      if (results.length > 0) {
-        const Preg = results;
-        res.status(200).json(Preg);
-      } else {
-        res.status(404).json(null);
-      }
+    async function (error, results, fields) {
+        if (error) throw error;
+        await pool.end()
+        pool.quit()
+        if (results.length > 0) {
+            const Preg = results;
+            await res.status(200).json(Preg);
+        } else {
+            await res.status(404).json(null);
+        }
     }
   );
+
 };
 
 

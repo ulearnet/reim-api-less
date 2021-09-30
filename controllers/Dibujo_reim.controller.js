@@ -15,12 +15,15 @@ const put_dibujo_reim = async (req, res) => {
     [
       sesion_id,reim_id,actividad_id,imagen
     ],
-    function (error, results, fields) {
+    async function (error, results, fields) {
       if (error) throw error;
-      res.status(200).json(results.insertId);
+      await pool.end()
+      pool.quit()
+      await res.status(200).json(results.insertId);
     }
 
   );
+
 };
 
 
@@ -35,16 +38,19 @@ const get_dibujo_reim = async (req, res) => {
       ORDER BY id_dibujo_reim DESC limit 8;
     `,
      [id],
-     function (error, results, fields) {
-      if (error) throw error;
-      if (results.length > 0) {
-        const Resp = results;
-        res.status(200).json(Resp);
-      } else {
-        res.status(404).json(null);
-      }
-    }
+     async function (error, results, fields) {
+       if (error) throw error;
+       await pool.end()
+       pool.quit()
+       if (results.length > 0) {
+         const Resp = results;
+         await res.status(200).json(Resp);
+       } else {
+         await res.status(404).json(null);
+       }
+     }
   );
+
 };
 
 
@@ -65,16 +71,20 @@ const get_Misdibujo_reim = async (req, res) => {
       ORDER BY d.id_dibujo_reim DESC limit 8;
     `,
      [reim_id,usuario_id],
-     function (error, results, fields) {
-      if (error) throw error;
-      if (results.length > 0) {
-        const Resp = results;
-        res.status(200).json(Resp);
-      } else {
-        res.status(404).json(null);
-      }
-    }
+     async function (error, results, fields) {
+       if (error) throw error;
+       await pool.end()
+       pool.quit()
+       if (results.length > 0) {
+         const Resp = results;
+
+         await res.status(200).json(Resp);
+       } else {
+         await res.status(404).json(null);
+       }
+     }
   );
+
 };
 
 
@@ -91,16 +101,19 @@ const get_generaldibujo_reim = async (req, res) => {
       ORDER BY id_dibujo_reim DESC limit 8;
     `,
      [reim_id,usuario_id],
-     function (error, results, fields) {
-      if (error) throw error;
-      if (results.length > 0) {
-        const Resp = results;
-        res.status(200).json(Resp);
-      } else {
-        res.status(404).json(null);
-      }
-    }
+     async function (error, results, fields) {
+       if (error) throw error;
+       await pool.end()
+       pool.quit()
+       if (results.length > 0) {
+         const Resp = results;
+         await res.status(200).json(Resp);
+       } else {
+         await res.status(404).json(null);
+       }
+     }
   );
+
 };
 
 
@@ -116,15 +129,18 @@ const getAprobados = async (req, res) => {
       ORDER BY id_dibujo_reim DESC limit 8;
     `,
     [reim_id],
-    function (error, results, fields) {
+    async function (error, results, fields) {
       if (error) throw error;
-      if(results.length > 0){
-        res.status(200).json(results);
-      }else{
-        res.status(404).json(false);
+      await pool.end()
+      pool.quit()
+      if (results.length > 0) {
+        await res.status(200).json(results);
+      } else {
+        await res.status(404).json(false);
       }
     }
   );
+
 };
 
 const getLast = async (req, res) => {
@@ -134,16 +150,19 @@ const getLast = async (req, res) => {
     ` 
       select * from dibujo_reim where id_dibujo_reim = (select max(id_dibujo_reim) from dibujo_reim); 
     `,
-    function (error, results, fields) {
+    async function (error, results, fields) {
       if (error) throw error;
-      if(results.length > 0){
-        res.status(200).json(results[0].id_dibujo_reim);
-      }else{
+      await pool.end()
+      pool.quit()
+      if (results.length > 0) {
+        await res.status(200).json(results[0].id_dibujo_reim);
+      } else {
         var cero = 0;
-        res.status(404).json(cero);
+        await res.status(404).json(cero);
       }
     }
   );
+
 };
 
 module.exports = {

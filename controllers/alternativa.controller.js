@@ -11,13 +11,15 @@ const get_alternativa = async (req, res) => {
          where idlaternativa = ?
             `,
         [idlaternativa],
-        function (error, results, fields) {
-          if (error) throw error;
-          
-          const respuesta = results[0]
-          res.status(200).json(respuesta);
+        async function (error, results, fields) {
+            if (error) throw error;
+            const respuesta = results[0]
+            await pool.end()
+            pool.quit()
+            await res.status(200).json(respuesta);
         }
     );
+
 }
 
 module.exports = {

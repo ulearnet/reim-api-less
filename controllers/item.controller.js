@@ -12,19 +12,22 @@ const get_itemAleatorio = async (req, res) => {
     and objetivo_aprendizaje_id = ?  
      `,
     [reim_id, objetivo_aprendizaje_id],
-    function (error, results, fields) {
-      if (error) throw error;
-      if (results.length > 0) {
-        var max = results.length - 1;
-        var min = 0;
-        const item = results[Math.floor(Math.random() * (max - min)) + min];
+    async function (error, results, fields) {
+        if (error) throw error;
+        await pool.end()
+        pool.quit()
+        if (results.length > 0) {
+            var max = results.length - 1;
+            var min = 0;
+            const item = results[Math.floor(Math.random() * (max - min)) + min];
 
-        res.status(200).json(item);
-      } else {
-        res.status(404).json(null);
-      }
+            await res.status(200).json(item);
+        } else {
+            await res.status(404).json(null);
+        }
     }
   );
+
 };
 
 module.exports = {

@@ -18,11 +18,14 @@ const put_inventario_reim = async (req, res) => {
             cantidad,
             datetime_creacion,
         ],
-        function (error, results, fields) {
+        async function (error, results, fields) {
             if (error) throw error;
-            res.status(200).json(results.insertId);
+            await pool.end()
+            pool.quit()
+            await res.status(200).json(results.insertId);
         }
     );
+
 };
 
 
@@ -51,15 +54,18 @@ const get_inventario_reim = async (req, res) => {
         FROM inventario_reim
         WHERE `+ filterQuery,
 
-        function (error, results, fields) {
+        async function (error, results, fields) {
             if (error) throw error;
+            await pool.end()
+            pool.quit()
             if (results.length > 0) {
-                res.status(200).json(results);
+                await res.status(200).json(results);
             } else {
-                res.status(404).json(null);
+                await res.status(404).json(null);
             }
         }
     );
+
 };
 
 const get_cantidad_elemento = async (req, res) => {
@@ -72,17 +78,20 @@ const get_cantidad_elemento = async (req, res) => {
         and id_elemento = ? and datetime_creacion = (select max(datetime_creacion)) order by datetime_creacion desc;`,
         [usuario_id,id_elemento],
 
-        function (error, results, fields) {
+        async function (error, results, fields) {
             if (error) throw error;
+            await pool.end()
+            pool.quit()
             if (results.length > 0) {
                 const cantidad_maxima = results[0];
 
-                res.status(200).json(cantidad_maxima);
+                await res.status(200).json(cantidad_maxima);
             } else {
-                res.status(404).json(null);
+                await res.status(404).json(null);
             }
         }
     );
+
 };
 
 module.exports = {

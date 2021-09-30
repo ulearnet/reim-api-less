@@ -7,12 +7,15 @@ const addtiempoxactividad = async (req, res) => {
     await pool.query(`insert into tiempoxactividad (inicio, final, causa, usuario_id, reim_id, actividad_id) 
                       values (
                               ?, ?, ?, ?, ?, ?
-                             )`,[inicio, final, causa, usuario_id, reim_id, actividad_id],function (error, results, fields) {
+                             )`,[inicio, final, causa, usuario_id, reim_id, actividad_id],async function (error, results, fields) {
         console.log([inicio, final, causa, usuario_id, reim_id, actividad_id])
         if (error) throw error;
-        res.status(200).json(results.insertId)
+        await pool.end()
+        pool.quit()
+        await res.status(200).json(results.insertId)
     })
     console.log([inicio, final, causa, usuario_id, reim_id, actividad_id])
+
 }
 
 const updatetiempoxactividad = async (req, res) => {
@@ -23,9 +26,11 @@ const updatetiempoxactividad = async (req, res) => {
                           inicio = ?, final= ?, causa= ?, usuario_id= ?, reim_id= ?, actividad_id= ?                            
                       where
                           id = ?
-                      `,[inicio, final, causa, usuario_id, reim_id, actividad_id, id_tiempoactividad],function (error, results, fields) {
+                      `,[inicio, final, causa, usuario_id, reim_id, actividad_id, id_tiempoactividad],async function (error, results, fields) {
         if (error) throw error;
-        res.status(200).json(results.insertId)
+        await pool.end()
+        pool.quit()
+        await res.status(200).json(results.insertId)
     })
 }
 
@@ -33,9 +38,11 @@ const updatetiempoxactividadfinal = async (req, res) => {
     const id_tiempoactividad = req.params.id;
     const {final} = req.body
 
-    await pool.query(`update tiempoxactividad set final= ? where id = ? `,[final, id_tiempoactividad],function (error, results, fields) {
+    await pool.query(`update tiempoxactividad set final= ? where id = ? `,[final, id_tiempoactividad],async function (error, results, fields) {
         if (error) throw error;
-        res.status(200).json("OK")
+        await pool.end()
+        pool.quit()
+        await res.status(200).json("OK")
     })
 }
 

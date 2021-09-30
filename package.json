@@ -32,6 +32,7 @@
     "prettier": "^2.2.1",
     "pug": "2.0.0-beta11",
     "serverless-http": "^2.6.0",
+    "serverless-mysql": "^1.5.4",
     "win-node-env": "^0.4.0"
   },
   "devDependencies": {

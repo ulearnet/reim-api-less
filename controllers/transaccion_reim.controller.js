@@ -3,19 +3,22 @@ const md5 = require("md5");
 
 const comprar = async (req, res) => {
     const {usuarioenvia_id, usuariorecibe_id, elemento_id, catalogo_id, cantidad, datetime_transac, estado } = req.body;
-  
+
     await pool.query(
       ` 
         insert into transaccion_reim(usuarioenvia_id, usuariorecibe_id, elemento_id, catalogo_id, cantidad, datetime_transac, estado)
         values (?, ?, ?, ?, ?, ?, ?); 
       `,
       [usuarioenvia_id, usuariorecibe_id, elemento_id, catalogo_id, cantidad, datetime_transac, estado],
-      function (error, results, fields) {
-        if (error) throw error;
-        const OK = "OK";
-        res.status(200).json(OK);
+      async function (error, results, fields) {
+          if (error) throw error;
+          const OK = "OK";
+          await pool.end()
+          pool.quit()
+          await res.status(200).json(OK);
       }
     );
+
   };
 
 const get_ultimo_id = async (req,res) => {
@@ -24,12 +27,15 @@ const get_ultimo_id = async (req,res) => {
     from transaccion_reim
     where id = (select max(id) from transaccion_reim)`
     ,
-    function (error, results, fields) {
-      if (error) throw error;
-      const last = results[0].id;
-      res.status(200).json(last);
+    async function (error, results, fields) {
+        if (error) throw error;
+        const last = results[0].id;
+        await pool.end()
+        pool.quit()
+        await res.status(200).json(last);
     }
   );
+
 };
 
 const get_regalos = async (req,res) =>{
@@ -41,16 +47,19 @@ const get_regalos = async (req,res) =>{
     and 
     catalogo_id in (SELECT id from catalogo_reim where sesion_id like "?-204-%" and precio = 0);`
     ,[usuarioenvia_id],
-    function (error, results, fields) {
-      if (error) throw error;
-      if(results.length > 0){
-        res.status(200).json(results);
-      }else{
-        res.status(404).json(false);
-      }
-      
+    async function (error, results, fields) {
+        if (error) throw error;
+        await pool.end()
+        pool.quit()
+        if (results.length > 0) {
+            await res.status(200).json(results);
+        } else {
+            await res.status(404).json(false);
+        }
+
     }
   );
+
 };
 
 const get_ventas = async (req,res) =>{
@@ -62,15 +71,18 @@ const get_ventas = async (req,res) =>{
     and 
     catalogo_id in (SELECT id from catalogo_reim where sesion_id like "?-204-%" and precio != 0);`
     ,[usuarioenvia_id],
-    function (error, results, fields) {
-      if (error) throw error;
-      if(results.length > 0){
-        res.status(200).json(results);
-      }else{
-        res.status(404).json(false);
-      }
+    async function (error, results, fields) {
+        if (error) throw error;
+        await pool.end()
+        pool.quit()
+        if (results.length > 0) {
+            await res.status(200).json(results);
+        } else {
+            await res.status(404).json(false);
+        }
     }
   );
+
 };
 
 const updateEstadoVentas = async (req,res) =>{
@@ -85,12 +97,15 @@ const updateEstadoVentas = async (req,res) =>{
      and 
      catalogo_id in (SELECT id from catalogo_reim where sesion_id like "?-204-%" and precio != 0);`
     ,[estado, usuarioenvia_id],
-    function (error, results, fields) {
-      if (error) throw error;
-      const ok = "OK"
-      res.status(200).json(ok);
+    async function (error, results, fields) {
+        if (error) throw error;
+        const ok = "OK"
+        await pool.end()
+        pool.quit()
+        await res.status(200).json(ok);
     }
   );
+
 };
 
 const updateEstadoRegalos = async (req,res) =>{
@@ -105,13 +120,16 @@ const updateEstadoRegalos = async (req,res) =>{
        and 
        catalogo_id in (SELECT id from catalogo_reim where sesion_id like "?-204-%" and precio = 0);`
       ,[estado, usuarioenvia_id],
-      function (error, results, fields) {
-        if (error) throw error;
-        const ok = "OK"
-        res.status(200).json(ok);
+      async function (error, results, fields) {
+          if (error) throw error;
+          const ok = "OK"
+          await pool.end()
+          pool.quit()
+
+          res.status(200).json(ok);
       }
     );
-  
+
 };
 
 

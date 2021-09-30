@@ -11,17 +11,20 @@ const login = async (req, res) => {
      and password = ?  
      `,
     [loginame, password],
-    function (error, results, fields) {
-      if (error) throw error;
-      if (results.length > 0) {
-        const userLoged = results[0];
+    async function (error, results, fields) {
+        if (error) throw error;
+        await pool.end()
+        pool.quit()
+        if (results.length > 0) {
+            const userLoged = results[0];
 
-        res.status(200).json(userLoged);
-      } else {
-        res.status(404).json(null);
-      }
+            await res.status(200).json(userLoged);
+        } else {
+            await res.status(404).json(null);
+        }
     }
   );
+
 };
 
 module.exports = {

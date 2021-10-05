@@ -137,11 +137,28 @@ const get_count_element_alumno_respuesta_actividad = async (req, res) => {
     await pool.end()
     pool.quit()
 };
+const get_alumno_respuesta_actividad = async (req, res) => {
+    const {id_user,id_elemento} = req.body;
+    await pool.query(
+        `SELECT * FROM alumno_respuesta_actividad where id_user = ? and id_elemento = ? and (select max(datetime_touch)) order by datetime_touch desc;`,
+        [id_user,id_elemento],
+        function (error, results, fields) {
+            if (error) throw error;
+            if (results.length > 0) {
+                console.log(results[0]);
+                res.status(200).json(results[0]);
+            }else{
+                res.status(404).json(null);
+            }
+        }
+    );
+};
 
 module.exports = {
     put_alumno_respuesta_actividad2,
     put_alumno_respuesta_actividad,
     get_colab_spacemath,
     get_tienda_spacemath,
-    get_count_element_alumno_respuesta_actividad
+    get_count_element_alumno_respuesta_actividad,
+    get_alumno_respuesta_actividad
 };

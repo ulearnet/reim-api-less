@@ -1,29 +1,35 @@
 const { pool } = require("../dbcnx");
 const md5 = require("md5");
 
+
 const put_dibujo_reim = async (req, res) => {
-  const {
-    sesion_id,
-    reim_id,
-    actividad_id,
-    imagen,
-  } = req.body;
+    const {
 
-  await pool.query(
-    `insert into dibujo_reim (sesion_id,reim_id,actividad_id,imagen)
-         values (?, ?, ?, ?, ?)`,
-    [
-      sesion_id,reim_id,actividad_id,imagen
-    ],
-    async function (error, results, fields) {
-      if (error) throw error;
-      await pool.end()
-      pool.quit()
-      await res.status(200).json(results.insertId);
-    }
+        sesion_id,
+        usuario_id,
+        reim_id,
+        actividad_id,
+        imagen,
 
-  );
 
+    } = req.body;
+
+    let buffer = Buffer.from(imagen);
+    let arraybuffer = Uint8Array.from(buffer).buffer;
+
+    await pool.query(
+        `insert into dibujo_reim (sesion_id, usuario_id, reim_id, actividad_id, imagen)
+         values (?, ?, ?, ?,?)`,
+        [
+            sesion_id, usuario_id, reim_id, actividad_id,buffer
+        ],
+        async function (error, results, fields) {console.log(sesion_id, usuario_id, reim_id, actividad_id,buffer)
+            if (error) throw error;
+            await pool.end()
+            pool.quit()
+            await res.status(200).json(results.insertId);
+        }
+    );
 };
 
 

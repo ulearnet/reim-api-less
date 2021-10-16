@@ -9,7 +9,8 @@ const {
     update2,
     add,
     get_existe_sesion,
-    get_by_id
+    get_by_id,
+    get_usuarios_catalogo_1
 } = require("../controllers/catalogo_reim.controller");
 /* GET home page. */
 router.post("/getLast", get_ultimo_id);
@@ -21,5 +22,6 @@ router.post("/update2",update2);
 router.post("/add",add)
 router.post("/existeSesion",get_existe_sesion)
 router.post("/getByID",get_by_id)
+router.post("/getCatalogo_1",get_usuarios_catalogo_1)
 
 module.exports = router;

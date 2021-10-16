@@ -76,7 +76,7 @@ const get_usuarios_catalogo = async (req, res) => {
     await pool.query(
         `SELECT *
          from catalogo_reim
-         where sesion_id like "%-204-%"
+         where sesion_id like "%-"?"-%"
            and precio != 0 and cantidad != 0 and sesion_id not like "?-%"
          ORDER BY precio ASC`,
         [id]
@@ -203,8 +203,6 @@ const get_by_id = async (req, res) => {
     const {
         id_elemento, id
     } = req.body;
-
-
     await pool.query(
         `SELECT *
          FROM catalogo_reim
@@ -226,6 +224,25 @@ const get_by_id = async (req, res) => {
     );
 
 }
+const get_usuarios_catalogo_1 = async (req, res) => {
+    const {id_reim} = req.body;
+    await pool.query(
+        `SELECT u.id,u.nombres,i.id_elemento,i.precio FROM asigna_reim_alumno a,catalogo_reim i, usuario u where  i.sesion_id = a.sesion_id && a.usuario_id = u.id and a.reim_id = ? and 
+         datetime_realiza = (select max(datetime_realiza)) order by datetime_realiza desc;`,
+        [id, id_elemento]
+        , async function (error, results, fields) {
+            if (error) throw error;
+
+            await pool.end()
+            pool.quit()
+            if (results.length == 0) {
+                await res.status(400).json(false);
+            } else if (results.length > 0) {
+                await res.status(200).json(results[0]);
+            }
+        }
+    );
+}
 
 
 module.exports = {
@@ -237,5 +254,6 @@ module.exports = {
     update2,
     add,
     get_existe_sesion,
-    get_by_id
+    get_by_id,
+    get_usuarios_catalogo_1
 };

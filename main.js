@@ -34,6 +34,7 @@ const usuario_router = require("./routes/usuario");
 
 const main = express();
 main.use(bodyParser.urlencoded({ extended: true }));
+main.use(bodyParser.json({limit:'5mb'}))
 // view engine setup
 main.set("views", path.join(__dirname, "views"));
 main.set("view engine", "pug");
@@ -52,7 +53,7 @@ main.use("/api/item_alt", item_altRouter);
 main.use("/api/asigna_reim_alumno", asigna_reim_alumnoRouter);
 main.use("/api/item", item_router);
 main.use("/api/alternativa", alternativa_router);
-main.use("/api/Dibujo_reim", Dibujo_reimRouter);
+main.use("/api/dibujo_reim", Dibujo_reimRouter);
 main.use("/api/Inventario_reim", Inventario_reimRouter);
 main.use("/api/Reaccion_dibujo", Reaccion_dibujoRouter);
 main.use("/api/Opinion_dibujo", Opinion_dibujoRouter);

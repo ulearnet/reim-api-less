@@ -15,7 +15,6 @@ const put_dibujo_reim = async (req, res) => {
     } = req.body;
 
     let buffer = Buffer.from(imagen);
-    let arraybuffer = Uint8Array.from(buffer).buffer;
 
     await pool.query(
         `insert into dibujo_reim (sesion_id, usuario_id, reim_id, actividad_id, imagen)
@@ -23,7 +22,7 @@ const put_dibujo_reim = async (req, res) => {
         [
             sesion_id, usuario_id, reim_id, actividad_id,buffer
         ],
-        async function (error, results, fields) {console.log(sesion_id, usuario_id, reim_id, actividad_id,buffer)
+        async function (error, results, fields) {
             if (error) throw error;
             await pool.end()
             pool.quit()
@@ -34,17 +33,12 @@ const put_dibujo_reim = async (req, res) => {
 
 
 const get_dibujo_reim = async (req, res) => {
-  const id = req.params.id;
+  const {reim_id,actividad_id} = req.body;
   await pool.query(
-    `SELECT id_dibujo_reim, 
-            usuario_id,
-            imagen
-      FROM dibujo_reim
-      WHERE  reim_id = ?
-      ORDER BY id_dibujo_reim DESC limit 8;
+    `SELECT id_dibujo_reim, usuario_id,imagen FROM dibujo_reim WHERE  reim_id = ? and actividad_id = ?;
     `,
-     [id],
-     async function (error, results, fields) {
+     [reim_id,actividad_id],
+     async function (error, results, fields) {console.log(reim_id,actividad_id)
        if (error) throw error;
        await pool.end()
        pool.quit()

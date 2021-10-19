@@ -12,7 +12,7 @@ const {
 
 
 router.post("/add", put_dibujo_reim);
-router.post("/get/:id", get_dibujo_reim);
+router.post("/get", get_dibujo_reim);
 router.post("/getpropios", get_Misdibujo_reim);
 router.post("/getgeneral", get_generaldibujo_reim);
 router.post("/getAprobados", getAprobados);

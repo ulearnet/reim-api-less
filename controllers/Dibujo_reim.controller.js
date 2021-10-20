@@ -35,10 +35,10 @@ const put_dibujo_reim = async (req, res) => {
 const get_dibujo_reim = async (req, res) => {
   const {reim_id,actividad_id} = req.body;
   await pool.query(
-    `SELECT id_dibujo_reim, usuario_id,imagen FROM dibujo_reim WHERE  reim_id = ? and actividad_id = ?;
+    `SELECT d.id_dibujo_reim,a.nombres,d.usuario_id,d.imagen FROM dibujo_reim d,usuario a WHERE d.usuario_id=a.id and  reim_id = ? and actividad_id = ?;
     `,
      [reim_id,actividad_id],
-     async function (error, results, fields) {console.log(reim_id,actividad_id)
+     async function (error, results, fields) {console.log(results)
        if (error) throw error;
        await pool.end()
        pool.quit()
@@ -50,6 +50,26 @@ const get_dibujo_reim = async (req, res) => {
        }
      }
   );
+
+};
+const get_dibujo_reim_x_usuario = async (req, res) => {
+    const {reim_id,actividad_id,usuario_id} = req.body;
+    await pool.query(
+        `SELECT * FROM ulearnet_reim_pilotaje.dibujo_reim where reim_id =? and actividad_id=? and usuario_id=?;
+    `,
+        [reim_id,actividad_id,usuario_id],
+        async function (error, results, fields) {console.log(reim_id,actividad_id)
+            if (error) throw error;
+            await pool.end()
+            pool.quit()
+            if (results.length > 0) {
+                const Resp = results;
+                await res.status(200).json(Resp);
+            } else {
+                await res.status(404).json(null);
+            }
+        }
+    );
 
 };
 
@@ -167,6 +187,7 @@ const getLast = async (req, res) => {
 
 module.exports = {
   get_dibujo_reim,
+    get_dibujo_reim_x_usuario,
   getAprobados,
   getLast,
   put_dibujo_reim,

@@ -50,8 +50,8 @@ const get_dibujo_reim = async (req, res) => {
        }
      }
   );
-
 };
+
 const get_dibujo_reim_x_usuario = async (req, res) => {
     const {reim_id,actividad_id,usuario_id} = req.body;
     await pool.query(
@@ -139,16 +139,13 @@ const get_generaldibujo_reim = async (req, res) => {
 
 const getAprobados = async (req, res) => {
 
-  const { reim_id} = req.body;
+  const { reim_id,actividad_id} = req.body;
 
   await pool.query(
     ` 
-      SELECT * FROM dibujo_reim 
-      where reim_id = ?
-      and id_dibujo_reim in (select idimagen from aprueba where esaprobado = 1) 
-      ORDER BY id_dibujo_reim DESC limit 8;
+      SELECT d.id_dibujo_reim,a.nombres,d.usuario_id,d.imagen,b.esaprobado FROM dibujo_reim d,usuario a,aprueba b WHERE d.usuario_id=a.id and  reim_id = ? and actividad_id = ? and b.idimagen = d.id_dibujo_reim and b.esaprobado =1;
     `,
-    [reim_id],
+    [reim_id,actividad_id],
     async function (error, results, fields) {
       if (error) throw error;
       await pool.end()

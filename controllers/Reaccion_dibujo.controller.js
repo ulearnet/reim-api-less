@@ -25,7 +25,6 @@ const add_reaccion_dibujo = async (req, res) => {
           await res.status(200).json(results.insertId);
       }
     );
-
   };
 
   const get = async (req, res) => {

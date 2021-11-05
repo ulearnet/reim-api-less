@@ -3,16 +3,18 @@ const md5 = require("md5");
 
 const put_asigna_reim_alumno = async (req, res) => {
     const {sesion_id, usuario_id, periodo_id, reim_id, datetime_inicio, datetime_termino,} = req.body;
-
+    console.log("prueba");
     await pool.query(
         `insert into asigna_reim_alumno (sesion_id, usuario_id, periodo_id, reim_id, datetime_inicio, datetime_termino)
          values (?, ?, ?, ?, ?, ?)`,
         [sesion_id, usuario_id, periodo_id, reim_id, datetime_inicio, datetime_termino],
-        async function (error, results, fields) {
+        async function (error, results, fields) {console.log(sesion_id, usuario_id, periodo_id, reim_id, datetime_inicio, datetime_termino)
             if (error) throw error;
             await pool.end()
             pool.quit()
             await res.status(200).json("OK");
+
+
         }
     );
 

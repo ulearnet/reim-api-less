@@ -18,7 +18,7 @@ const put_inventario_reim = async (req, res) => {
             cantidad,
             datetime_creacion,
         ],
-        async function (error, results, fields) {
+        async function (error, results, fields) {console.log(sesion_id, id_elemento, cantidad, datetime_creacion)
             if (error) throw error;
             await pool.end()
             pool.quit()
@@ -71,7 +71,7 @@ const get_inventario_reim = async (req, res) => {
 const get_cantidad_elemento = async (req, res) => {
     const { usuario_id, id_elemento } = req.body;
 
-
+    console.log(usuario_id,id_elemento);
     await pool.query(
         `SELECT cantidad FROM inventario_reim i,asigna_reim_alumno a, usuario u where i.sesion_id = a.sesion_id && a.usuario_id = u.id and
         u.id = ?
@@ -91,8 +91,8 @@ const get_cantidad_elemento = async (req, res) => {
             }
         }
     );
-
 };
+
 
 module.exports = {
     put_inventario_reim,

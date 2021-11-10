@@ -229,7 +229,7 @@ const get_usuarios_catalogo_1 = async (req, res) => {
     await pool.query(
         `SELECT u.id,u.nombres,i.id_elemento,i.precio FROM asigna_reim_alumno a,catalogo_reim i, usuario u where  i.sesion_id = a.sesion_id && a.usuario_id = u.id and a.reim_id = ? and 
          datetime_realiza = (select max(datetime_realiza)) order by datetime_realiza desc;`,
-        [id, id_elemento]
+        [id_reim]
         , async function (error, results, fields) {
             if (error) throw error;
 
@@ -238,7 +238,7 @@ const get_usuarios_catalogo_1 = async (req, res) => {
             if (results.length == 0) {
                 await res.status(400).json(false);
             } else if (results.length > 0) {
-                await res.status(200).json(results[0]);
+                await res.status(200).json(results);
             }
         }
     );

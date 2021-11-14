@@ -69,7 +69,6 @@ const get_colab_spacemath = async (req, res) => {
         async function (error, results, fields) {
             if (error) throw error;
             if (results.length > 0) {
-                console.log(results[0]);
                 await pool.end()
                 pool.quit()
                 await res.status(200).json(results[0]);
@@ -97,7 +96,6 @@ const get_tienda_spacemath = async (req, res) => {
         async function (error, results, fields) {
             if (error) throw error;
             if (results.length > 0) {
-                console.log(results[0]);
                 await pool.end()
                 pool.quit()
                 await res.status(200).json(results[0]);
@@ -145,7 +143,6 @@ const get_alumno_respuesta_actividad = async (req, res) => {
         function (error, results, fields) {
             if (error) throw error;
             if (results.length > 0) {
-                console.log(results[0]);
                 res.status(200).json(results[0]);
             }else{
                 res.status(404).json(null);

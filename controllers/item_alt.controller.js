@@ -75,6 +75,7 @@ const get_item_alt_order = async (req, res) => {
   await pool.query(
     `SELECT A.ITEM_IdItem,
             A.idlaternativa,
+            B.elemento_id,
             B.Pregunta,
             C.txt_alte
       FROM item_alt AS A

@@ -6,7 +6,7 @@ const getNombre = async (req, res) => {
 
   await pool.query(
     `select nombres, apellido_paterno
-    from ulearnet_reim_pilotaje.usuario 
+    from usuario 
     where id = ?`,
     [id],
     async function (error, results, fields) {

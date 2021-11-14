@@ -8,13 +8,11 @@ const addtiempoxactividad = async (req, res) => {
                       values (
                               ?, ?, ?, ?, ?, ?
                              )`,[inicio, final, causa, usuario_id, reim_id, actividad_id],async function (error, results, fields) {
-        console.log([inicio, final, causa, usuario_id, reim_id, actividad_id])
         if (error) throw error;
         await pool.end()
         pool.quit()
         await res.status(200).json(results.insertId)
     })
-    console.log([inicio, final, causa, usuario_id, reim_id, actividad_id])
 
 }
 

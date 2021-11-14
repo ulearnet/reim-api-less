@@ -98,9 +98,6 @@ const get_existe = async (req, res) => {
     const {
         id, id_elemento
     } = req.body;
-    console.log(id);
-    console.log(id_elemento);
-
 
     await pool.query(
         `SELECT id, cantidad
@@ -144,7 +141,6 @@ const update2 = async (req, res) => {
             await res.status(200).json(OK);
         }
     );
-    console.log(precio);
 
 }
 
@@ -185,8 +181,6 @@ const get_existe_sesion = async (req, res) => {
         , async function (error, results, fields) {
             if (error) throw error;
 
-            console.log(results);
-            console.log(results.length);
             await pool.end()
             pool.quit()
             if (results.length == 0) {

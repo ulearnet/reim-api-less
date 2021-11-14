@@ -32,6 +32,8 @@ const detalle_usuarioRouter = require("./routes/detalle_usuario");
 const transaccion_reim_router = require("./routes/transaccion_reim");
 const usuario_router = require("./routes/usuario");
 const invitado_router = require("./routes/invitado");
+const imagen_router = require("./routes/imagen");
+const evaluacion_router = require("./routes/evaluacion_propuesta");
 
 const main = express();
 main.use(bodyParser.urlencoded({ extended: true }));
@@ -64,6 +66,8 @@ main.use("/api/detalle_usuario", detalle_usuarioRouter);
 main.use("/api/transaccion_reim", transaccion_reim_router);
 main.use("/api/usuario", usuario_router);
 main.use("/api/invitado", invitado_router);
+main.use("/api/imagen", imagen_router);
+main.use("/api/evaluacion", evaluacion_router);
 
 // catch 404 and forward to error handler
 main.use(function (req, res, next) {

@@ -38,7 +38,7 @@ const get_dibujo_reim = async (req, res) => {
     `SELECT d.id_dibujo_reim,a.nombres,d.usuario_id,d.imagen FROM dibujo_reim d,usuario a WHERE d.usuario_id=a.id and  reim_id = ? and actividad_id = ?;
     `,
      [reim_id,actividad_id],
-     async function (error, results, fields) {console.log(results)
+     async function (error, results, fields) {
        if (error) throw error;
        await pool.end()
        pool.quit()
@@ -55,10 +55,10 @@ const get_dibujo_reim = async (req, res) => {
 const get_dibujo_reim_x_usuario = async (req, res) => {
     const {reim_id,actividad_id,usuario_id} = req.body;
     await pool.query(
-        `SELECT * FROM ulearnet_reim_pilotaje.dibujo_reim where reim_id =? and actividad_id=? and usuario_id=?;
+        `SELECT * FROM dibujo_reim where reim_id =? and actividad_id=? and usuario_id=?;
     `,
         [reim_id,actividad_id,usuario_id],
-        async function (error, results, fields) {console.log(reim_id,actividad_id)
+        async function (error, results, fields) {
             if (error) throw error;
             await pool.end()
             pool.quit()
@@ -81,14 +81,14 @@ const get_Misdibujo_reim = async (req, res) => {
   await pool.query(
     `SELECT DISTINCT d.id_dibujo_reim, 
             d.imagen,
-            (SELECT COUNT(idreaccion) FROM ulearnet_reim_pilotaje.reaccionxdibujo WHERE idreaccion = 1 AND iddibujo = d.id_dibujo_reim) Tristeza,
-            (SELECT COUNT(idreaccion) FROM ulearnet_reim_pilotaje.reaccionxdibujo WHERE idreaccion = 2 AND iddibujo = d.id_dibujo_reim) Alegria,
-            (SELECT COUNT(idreaccion) FROM ulearnet_reim_pilotaje.reaccionxdibujo WHERE idreaccion = 3 AND iddibujo = d.id_dibujo_reim) Desagrado,
-            (SELECT COUNT(idreaccion) FROM ulearnet_reim_pilotaje.reaccionxdibujo WHERE idreaccion = 4 AND iddibujo = d.id_dibujo_reim) Temor,
-            (SELECT COUNT(idreaccion) FROM ulearnet_reim_pilotaje.reaccionxdibujo WHERE idreaccion = 5 AND iddibujo = d.id_dibujo_reim) Enojo
+            (SELECT COUNT(idreaccion) FROM reaccionxdibujo WHERE idreaccion = 1 AND iddibujo = d.id_dibujo_reim) Tristeza,
+            (SELECT COUNT(idreaccion) FROM reaccionxdibujo WHERE idreaccion = 2 AND iddibujo = d.id_dibujo_reim) Alegria,
+            (SELECT COUNT(idreaccion) FROM reaccionxdibujo WHERE idreaccion = 3 AND iddibujo = d.id_dibujo_reim) Desagrado,
+            (SELECT COUNT(idreaccion) FROM reaccionxdibujo WHERE idreaccion = 4 AND iddibujo = d.id_dibujo_reim) Temor,
+            (SELECT COUNT(idreaccion) FROM reaccionxdibujo WHERE idreaccion = 5 AND iddibujo = d.id_dibujo_reim) Enojo
       FROM dibujo_reim d
       WHERE  d.reim_id = ? AND d.usuario_id = ?
-      ORDER BY d.id_dibujo_reim DESC limit 8;
+      ORDER BY d.id_dibujo_reim DESC;
     `,
      [reim_id,usuario_id],
      async function (error, results, fields) {
@@ -110,7 +110,8 @@ const get_Misdibujo_reim = async (req, res) => {
 
 const get_generaldibujo_reim = async (req, res) => {
   const {
-    reim_id,usuario_id
+    reim_id,
+    usuario_id
   } = req.body;
   await pool.query(
     `SELECT id_dibujo_reim, 
@@ -118,7 +119,7 @@ const get_generaldibujo_reim = async (req, res) => {
             imagen
       FROM dibujo_reim
       WHERE  reim_id = ? AND usuario_id != ?
-      ORDER BY id_dibujo_reim DESC limit 8;
+      ORDER BY id_dibujo_reim DESC;
     `,
      [reim_id,usuario_id],
      async function (error, results, fields) {
@@ -184,7 +185,7 @@ const getLast = async (req, res) => {
 
 module.exports = {
   get_dibujo_reim,
-    get_dibujo_reim_x_usuario,
+  get_dibujo_reim_x_usuario,
   getAprobados,
   getLast,
   put_dibujo_reim,

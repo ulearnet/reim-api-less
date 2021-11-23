@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const {
+    eliminar_id,
     get_ultimo_id,
     get_usuarios_necesitados,
     get_usuarios_catalogo,
@@ -23,5 +24,6 @@ router.post("/add",add)
 router.post("/existeSesion",get_existe_sesion)
 router.post("/getByID",get_by_id)
 router.post("/getCatalogo_1",get_usuarios_catalogo_1)
+router.post("/eliminar", eliminar_id)
 
 module.exports = router;

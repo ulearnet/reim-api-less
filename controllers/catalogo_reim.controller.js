@@ -42,18 +42,18 @@ const update = async (req, res) => {
 
 const get_usuarios_necesitados = async (req, res) => {
     const {
-        id
+        reim_id,id
     } = req.body;
 
     await pool.query(
         `SELECT *
          from catalogo_reim
-         where sesion_id like "%-204-%"
+         where sesion_id like "%-?-%"
            and precio = 0
            and sesion_id not like "?-%"
            and cantidad > 0
          order by datetime_realiza ASC`
-        , [id]
+        , [reim_id,id]
         , async function (error, results, fields) {
             if (error) throw error;
             await pool.end()
@@ -70,16 +70,16 @@ const get_usuarios_necesitados = async (req, res) => {
 
 const get_usuarios_catalogo = async (req, res) => {
     const {
-        id
+        reim_id, id
     } = req.body;
 
     await pool.query(
         `SELECT *
          from catalogo_reim
-         where sesion_id like "%-"?"-%"
+         where sesion_id like "%-?-%"
            and precio != 0 and cantidad != 0 and sesion_id not like "?-%"
          ORDER BY precio ASC`,
-        [id]
+        [reim_id,id]
         , async function (error, results, fields) {
             if (error) throw error;
             await pool.end()
@@ -98,8 +98,7 @@ const get_existe = async (req, res) => {
     const {
         id, id_elemento
     } = req.body;
-    console.log(id);
-    console.log(id_elemento);
+
 
 
     await pool.query(
@@ -144,7 +143,6 @@ const update2 = async (req, res) => {
             await res.status(200).json(OK);
         }
     );
-    console.log(precio);
 
 }
 
@@ -185,8 +183,7 @@ const get_existe_sesion = async (req, res) => {
         , async function (error, results, fields) {
             if (error) throw error;
 
-            console.log(results);
-            console.log(results.length);
+
             await pool.end()
             pool.quit()
             if (results.length == 0) {

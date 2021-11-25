@@ -80,15 +80,15 @@ const update_termino_json = async (req, res) => {
     );
 };
 const get_primer_inicio = async (req, res) => {
-    const {usuario_id} = req.body;
+    const {usuario_id,reim_id} = req.body;
 
     await pool.query(
         `SELECT datetime_termino
          FROM asigna_reim_alumno
-         where usuario_id = ?
+         where usuario_id = ? and reim_id = ? 
            and datetime_termino = (select max(datetime_termino))
          order by datetime_termino desc;`,
-        [usuario_id],
+        [usuario_id,reim_id],
 
         async function (error, results, fields) {
             if (error) throw error;

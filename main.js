@@ -34,10 +34,10 @@ const usuario_router = require("./routes/usuario");
 const invitado_router = require("./routes/invitado");
 const imagen_router = require("./routes/Imagen");
 const evaluacion_router = require("./routes/evaluacion_propuesta");
-
+const alumno_preguntaRouter = require("./routes/alumno_pregunta");
 const main = express();
 main.use(bodyParser.urlencoded({ extended: true }));
-main.use(bodyParser.json({limit:'5mb'}))
+main.use(bodyParser.json({limit:'10mb'}))
 // view engine setup
 main.set("views", path.join(__dirname, "views"));
 main.set("view engine", "pug");
@@ -68,6 +68,7 @@ main.use("/api/usuario", usuario_router);
 main.use("/api/invitado", invitado_router);
 main.use("/api/Imagen", imagen_router);
 main.use("/api/evaluacion", evaluacion_router);
+main.use("/api/alumno_pregunta", alumno_preguntaRouter);
 
 // catch 404 and forward to error handler
 main.use(function (req, res, next) {

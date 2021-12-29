@@ -82,7 +82,7 @@ const get_item_alt_order = async (req, res) => {
       JOIN item AS B ON A.ITEM_IdItem = B.IdItem
       JOIN alternativa AS C ON A.idlaternativa = C.idlaternativa
       WHERE A.escorrecto = "1" AND B.reim_id = ?
-      ORDER BY rand() LIMIT 8
+      ORDER BY rand() LIMIT 4
                                        `,
      [id],
     async function (error, results, fields) {

@@ -88,7 +88,7 @@ const get_Misdibujo_reim = async (req, res) => {
             (SELECT COUNT(idreaccion) FROM reaccionxdibujo WHERE idreaccion = 5 AND iddibujo = d.id_dibujo_reim) Enojo
       FROM dibujo_reim d
       WHERE  d.reim_id = ? AND d.usuario_id = ?
-      ORDER BY d.id_dibujo_reim DESC;
+      ORDER BY d.id_dibujo_reim DESC LIMIT 20;
     `,
      [reim_id,usuario_id],
      async function (error, results, fields) {
@@ -119,7 +119,7 @@ const get_generaldibujo_reim = async (req, res) => {
             imagen
       FROM dibujo_reim
       WHERE  reim_id = ? AND usuario_id != ?
-      ORDER BY id_dibujo_reim DESC;
+      ORDER BY id_dibujo_reim DESC LIMIT 20;
     `,
      [reim_id,usuario_id],
      async function (error, results, fields) {

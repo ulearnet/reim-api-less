@@ -99,11 +99,33 @@ const get_item_alt_order = async (req, res) => {
   );
 
 };
+const get_itemAlt_y_escorrecto_by_item= async (req,res) =>{
+  const{ITEM_IdItem} = req.body;
 
+  await pool.query(
+      `select idlaternativa, orden ,escorrecto
+       from item_alt
+       where ITEM_IdItem = ?`
+       ,[ITEM_IdItem],
+      async function (error, results, fields) {
+          if (error) throw error;
+          await pool.end()
+          pool.quit()
+          if (results.length > 0) {
+              const respuesta = results;
+              await res.status(200).json(respuesta);
+          } else {
+              await res.status(404).json(null);
+          }
+      }
+  );
+
+};
 
 module.exports = {
   put_item_alt,
   get_item_alts,
   get_item_alt_by_item,
-  get_item_alt_order
+  get_item_alt_order,
+  get_itemAlt_y_escorrecto_by_item
 };

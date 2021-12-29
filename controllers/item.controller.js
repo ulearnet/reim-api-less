@@ -30,6 +30,33 @@ const get_itemAleatorio = async (req, res) => {
 
 };
 
+const get_item = async (req, res) => {
+  const { reim_id, objetivo_aprendizaje_id } = req.body;
+
+  await pool.query(
+      `select IdItem, Pregunta                         
+      from
+      item
+      where reim_id = ?
+      and objetivo_aprendizaje_id = ?` 
+   ,
+      [reim_id, objetivo_aprendizaje_id],
+      async function (error, results, fields) {
+          if (error) throw error;
+          await pool.end()
+          pool.quit()
+          if (results.length > 0) {
+              const respuesta = results
+              await res.status(200).json(respuesta);
+          } else {
+              await res.status(404).json(null);
+          }
+      }
+  );
+
+};
+
 module.exports = {
-  get_itemAleatorio
+get_itemAleatorio,
+get_item
 };
